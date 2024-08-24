@@ -9,7 +9,7 @@
 - Install other dependencies by `pip install -r requirements.txt`
 
 ### Dataset
-使用 GSO dataset https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research
+使用 [GSO dataset](https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research)
 
 ### The Impact of Multi-view Generation(RQ1)
 <p align="center">
@@ -54,25 +54,32 @@ python3 run.py ./dataset/chicken_racer/thumbnails/0.jpg --output-dir ./output/bl
 ### Evaluation 
 
 #### installation
-安裝 kaolin套件
+安裝 [kaolin](https://github.com/NVIDIAGameWorks/kaolin)套件
+```sh
+git clone https://github.com/NVIDIAGameWorks/kaolin.git
+cd kaolin
+python3 setup.py develop
+```
 
 #### indivisual test
+```sh
+# python3 single_eval.py --gt-path [mesh path of ground truth] --output-path [mesh path of output]
+python3 single_eval.py --gt-path ./dataset/bag/meshes/model.obj --output-path ./output/block-mc/bag/256/bag_256.obj
+```
 
 #### group test
 
-### Manual Inference
 ```sh
-python run.py examples/chair.png --output-dir output/
+# python3 eval.py --caselist [list path] --gt-path [ground truth dictionary] --output-path [output dictionary] --resolution [ex:256,1024]
+python3 eval.py --caselist ./dataset/gso_list.txt --gt-path ./dataset --output-path ./output/triposr --resolution 256
+python3 eval.py --caselist ./dataset/gso_list.txt --gt-path ./dataset --output-path ./output/block-mc --resolution 256
 ```
-This will save the reconstructed 3D model to `output/`. You can also specify more than one image path separated by spaces. The default options takes about **6GB VRAM** for a single image input.
 
-If you would like to output a texture instead of vertex colors, use the `--bake-texture` option. You may also use `--texture-resolution` to specify the resolution in pixels of the output texture.
-
-For detailed usage of this script, use `python run.py --help`.
-
-### Local Gradio App
+### 評估記憶體容量
+將 system.py 裡的@profile 加上，並執行下列指令生成.dat 檔案，在繪製圖形
 ```sh
-python gradio_app.py
+mprof run --include-children run.py ./dataset/chicken_racer/thumbnails/0.jpg --output-dir test/triposr --mc-resolution 256 
+mprof plot ./mprofile_20240819145521.dat -o ./test/comparison/256_gpu.png
 ```
 
 ## Troubleshooting
