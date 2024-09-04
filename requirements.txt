@@ -5,9 +5,16 @@ git+https://github.com/tatsy/torchmcubes.git
 transformers==4.35.0
 trimesh==4.0.5
 rembg
-huggingface-hub
+huggingface-hub==0.17.3
 imageio[ffmpeg]
 xatlas==0.0.9
 moderngl==5.10.0
 kaolin
 torchmcubes
+numpy==1.26.4
+memory_profiler
+segment_anything
+diffusers[torch]==0.19.3
+xformers==0.0.16
+open3d
+accelerate==0.27.2 
